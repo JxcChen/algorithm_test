@@ -12,7 +12,7 @@ import java.util.HashSet;
  * Description: 求交集
  */
 public class Test3 {
-//     public int[] intersection(int[] nums1, int[] nums2) {
+//    public int[] intersection(int[] nums1, int[] nums2) {
         // HashSet<Integer> set = new HashSet<Integer>();
         // HashSet<Integer> resSet = new HashSet<Integer>();
 
