@@ -1,8 +1,4 @@
-package sort_test;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
+package easy_sort_test;
 
 /**
  * ClassName: Test3

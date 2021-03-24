@@ -1,4 +1,4 @@
-package sort_test;
+package easy_sort_test;
 
 import java.util.Arrays;
 
