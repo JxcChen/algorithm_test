@@ -1,57 +1,33 @@
 package easy_sort_test;
 
-import java.util.Arrays;
-
 /**
- * @author: JJJJ
- * @date:2021/7/14 15:22
- * @Description: TODO
+ * @author JJJJ
+ * @Title: Test16
+ * @date 2021/8/31下午10:45
+ * @Description: sortTest
  */
 public class Test16 {
     /*
-    给定一个大小为 n 的数组，找到其中的多数元素。多数元素是指在数组中出现次数 大于 ⌊ n/2 ⌋ 的元素。
-    你可以假设数组是非空的，并且给定的数组总是存在多数元素。
+    给你一个 32 位的有符号整数 x ，返回将 x 中的数字部分反转后的结果。
+
+    如果反转后整数超过 32 位的有符号整数的范围 [−231,  231 − 1] ，就返回 0。
+
+    假设环境不允许存储 64 位整数（有符号或无符号）。
      */
-    public int majorityElement(int[] nums) {
-
-
-        // 哈希表法
-        // int len = nums.length;
-        // if(len == 1)
-        //     return nums[0];
-        // int n = len/2;
-        // HashMap<Integer,Integer> map = new HashMap<>();
-        // for(int i = 0;i<len;i++){
-        //     if(!map.containsKey(nums[i])){
-        //         map.put(nums[i],1);
-        //     }else{
-        //         int count = map.get(nums[i]);
-        //         if(count + 1 > n){
-        //             return nums[i];
-        //         }else{
-        //             map.put(nums[i],count+1);
-        //         }
-        //     }
-        // }
-        // return 0;
-        //
-
-
-        // 投票算法
-        // int count = 0;
-        // Integer candidate = null;
-
-        // for (int num : nums) {
-        //     if (count == 0) {
-        //         candidate = num;
-        //     }
-        //     count += (num == candidate) ? 1 : -1;
-        // }
-
-        // return candidate;
-
-        // 排序 获取中位数
-        Arrays.sort(nums);
-        return nums[nums.length / 2];
+    public static void main(String[] args) {
+        System.out.println(reverse(1534236469));
     }
+    // 获取最后一位数 放在最前面依次进行
+    public static int reverse(int x) {
+        long result = 0;
+        while(x / 10 != 0 || x % 10 != 0){
+            int lastNum = x % 10;
+            result = result * 10 + lastNum;
+            x /= 10;
+        }
+        if(result < Math.pow(-2,31) || result > (Math.pow(2,31)-1))
+            return 0;
+        return (int)result;
+    }
+
 }
