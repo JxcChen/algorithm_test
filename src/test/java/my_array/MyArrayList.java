@@ -116,7 +116,7 @@ public class MyArrayList<E> {
 
 
     private boolean isEmpty() {
-        return data.length <= 0;
+        return size==0;
     }
 
     /**

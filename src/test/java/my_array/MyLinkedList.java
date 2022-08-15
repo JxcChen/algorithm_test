@@ -1,5 +1,7 @@
 package my_array;
 
+import java.util.NoSuchElementException;
+
 /**
  * @author: JJJJ
  * @date:2022/8/12 8:24
@@ -29,5 +31,150 @@ public class MyLinkedList<E> {
         head.next = tail;
         tail.next = null;
         this.size = 0;
+    }
+
+    /****** 新增 ******/
+    public void addLast(E e){
+        Node<E> x = new Node<>(e);
+        Node<E> temp = tail.prev;
+        x.prev = temp;
+        x.next = tail;
+        temp.next = x;
+        tail.prev = x;
+        size++;
+    }
+
+    public void addFirst(E e){
+        // 先声明两个节点
+        Node<E> x = new Node<>(e);
+        Node<E> temp = head.next;
+        // 先将x节点next指向temp  prev指向head
+        x.next = temp;
+        x.prev = head;
+        // 在将head的next节点和temp的prev节点都指向x节点
+        head.next = x;
+        temp.prev = x;
+        size++;
+    }
+
+    public void add(int index,E e){
+        checkPositionIndex(index);
+        Node<E> x = new Node<>(e);
+        Node<E> temp = getNode(index);
+        Node<E> temp2 = temp.prev;
+        x.prev = temp2;
+        x.next = temp;
+        temp.prev = x;
+        temp2.next = x;
+        size++;
+    }
+
+
+
+    /****** 删除 ******/
+
+    public E removeFirst(){
+        isEmpty();
+        // 去除只需要将前后两个节点的指针都不再指向该元素即可
+        Node<E> first = head.next;
+        Node<E> second = first.next;
+        head.next = second;
+        second.prev = head;
+        size--;
+        return first.val;
+    }
+
+    public E removeLast(){
+        isEmpty();
+        Node<E> first = tail.prev;
+        Node<E> second = first.prev;
+        second.next = tail;
+        tail.prev = second;
+
+        size--;
+        return first.val;
+    }
+
+    public E remove(int index){
+        isEmpty();
+        checkElementIndex(index);
+        Node<E> removeEle = getNode(index);
+        Node<E> next = removeEle.next;
+        Node<E> prev = removeEle.prev;
+        next.prev = prev;
+        prev.next = next;
+        size--;
+        return removeEle.val;
+    }
+
+    /****** 查找 ******/
+    public E getFirst(int index){
+        checkElementIndex(index);
+        Node<E> target = getNode(index);
+        return target.val;
+    }
+
+    /****** 修改 ******/
+    public void set(int index,E e){
+        isEmpty();
+        checkElementIndex(index);
+        getNode(index).val = e;
+    }
+
+    /**
+     * 判断链表内是否存在元素
+     */
+    private void isEmpty() {
+        if (size==0){
+            throw new NullPointerException();
+        }
+    }
+
+    /**
+     * 查看当前索引是否越界
+     * @param index 查询索引
+     */
+    private void checkElementIndex(int index){
+        if(!isElementIndex(index)){
+            throw new IndexOutOfBoundsException("Index： " + index+ " Size: "+ size);
+        }
+    }
+
+    private boolean isElementIndex(int index) {
+        return index>=0 && index < size - 1;
+    }
+
+    /**
+     * 查看插入索引是否越界  插入索引 0 ~ size
+     * @param index 插入索引
+     */
+    private void checkPositionIndex(int index){
+        if (!isPositionIndex(index))
+            throw new IndexOutOfBoundsException("Index： " + index+ " Size: "+ size);
+    }
+
+    private boolean isPositionIndex(int index) {
+        return index>=0 && index < size;
+    }
+
+    /**
+     * 获取到指定索引位置的node
+     * @param index 索引
+     */
+    private Node<E> getNode(int index) {
+        Node<E> temp;
+        if (index >(size/2)){
+            temp = tail.prev;
+            for(int i = size-1; i >= size-index-1; i--){
+                temp = temp.prev;
+            }
+        }else{
+            temp = head.next;
+            for(int i = 0; i <= index; i++){
+                temp = temp.next;
+            }
+        }
+
+        return temp;
     }
 }
