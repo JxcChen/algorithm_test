@@ -1,3 +1,5 @@
+import java.util.Random;
+
 /**
  * ClassName: QuickSortTest
  * date: 2021/3/2 8:56
@@ -9,13 +11,16 @@ public class QuickSortTest {
 
 
     public static void main(String[] args) {
-        int[] arr = {49, 38, 65, 97, 23, 22, 76, 1, 5, 8, 2, 0, -1, 22};
-        quickSort(arr,0,arr.length-1);
-//        quick_sort(arr,0,arr.length-1);
-        for (int num : arr
-        ) {
-            System.out.println(num);
-        }
+//        int[] arr = {49, 38, 65, 97, 23, 22, 76, 1, 5, 8, 2, 0, -1, 22};
+//        quickSort(arr,0,arr.length-1);
+////        quick_sort(arr,0,arr.length-1);
+//        for (int num : arr
+//        ) {
+//            System.out.println(num);
+//        }
+        int[] arr = {5,2,3,1};
+        Quick.sort(arr);
+        System.out.println("debug");
     }
 
 
@@ -75,5 +80,65 @@ public class QuickSortTest {
 
     }
 
+
+}
+
+class Quick{
+
+    public static void sort(int[] nums){
+        // 先打乱顺序 避免出现极端情况
+        shuffle(nums);
+        quickSort(nums,0,nums.length-1);
+    }
+    public static void quickSort(int[] nums,int low,int hi){
+        if (low >= hi) {
+            return;
+        }
+
+        int p = partition(nums,low,hi);
+        quickSort(nums,low,p-1);
+        quickSort(nums,p+1,hi);
+
+    }
+
+    public static int partition(int[] nums,int low,int hi){
+
+        // 获取第一个数进行比较
+        int x = nums[low];
+        int i = low + 1,j = hi;
+        while(i <= j){
+            // 从左往右找 找到第一个比x大的元素
+            while(i <= hi && nums[i] <= x)
+                i++;
+            // 从左往右找 找到第一个比x小的元素
+            while(j > low && nums[j] > x)
+                j--;
+            // 判断这个时候i j的关系
+            if(i >= j)
+                break;
+            // 将i 和 j的位置对调
+            swap(nums,i,j);
+        }
+        // 这个时候 j的左边是比x小的元素 j的 右边则是比x大的元素
+        swap(nums,low,j);
+        return j;
+    }
+
+    // 洗牌算法，将输入的数组随机打乱
+    private static void shuffle(int[] nums) {
+        Random rand = new Random();
+        int n = nums.length;
+        for (int i = 0 ; i < n; i++) {
+            // 生成 [i, n - 1] 的随机数
+            int r = i + rand.nextInt(n - i);
+            swap(nums, i, r);
+        }
+    }
+
+    private static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
 
 }

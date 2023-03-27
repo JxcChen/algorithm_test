@@ -13,7 +13,7 @@ public class MyLinkedList<E> {
      */
 
     // 双链表节点
-    private static class Node<E> {
+    static class Node<E> {
         E val;
         Node<E> next;
         Node<E> prev;
@@ -107,11 +107,33 @@ public class MyLinkedList<E> {
         return removeEle.val;
     }
 
+    public void clear(){
+        head.next = tail;
+        size = 0;
+    }
     /****** 查找 ******/
-    public E getFirst(int index){
+    public E get(int index){
         checkElementIndex(index);
         Node<E> target = getNode(index);
         return target.val;
+    }
+
+    /**
+     * 获取最后一个元素值
+     * @return last data
+     */
+    public E getLast(){
+        isEmpty();
+        Node<E> target = tail.prev;
+        return target.val;
+    }
+
+    /**
+     * 获取链表长度
+     * @return size
+     */
+    public int getSize(){
+        return this.size;
     }
 
     /****** 修改 ******/
@@ -124,38 +146,36 @@ public class MyLinkedList<E> {
     /**
      * 判断链表内是否存在元素
      */
-    private void isEmpty() {
+    public void isEmpty() {
         if (size==0){
             throw new NullPointerException();
         }
     }
 
-    /**
-     * 查看当前索引是否越界
-     * @param index 查询索引
-     */
-    private void checkElementIndex(int index){
-        if(!isElementIndex(index)){
-            throw new IndexOutOfBoundsException("Index： " + index+ " Size: "+ size);
-        }
-    }
-
     private boolean isElementIndex(int index) {
-        return index>=0 && index < size - 1;
-    }
-
-    /**
-     * 查看插入索引是否越界  插入索引 0 ~ size
-     * @param index 插入索引
-     */
-    private void checkPositionIndex(int index){
-        if (!isPositionIndex(index))
-            throw new IndexOutOfBoundsException("Index： " + index+ " Size: "+ size);
+        return index >= 0 && index < size;
     }
 
     private boolean isPositionIndex(int index) {
-        return index>=0 && index < size;
+        return index >= 0 && index <= size;
     }
+
+    /**
+     * 检查 index 索引位置是否可以存在元素
+     */
+    private void checkElementIndex(int index) {
+        if (!isElementIndex(index))
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+    }
+
+    /**
+     * 检查 index 索引位置是否可以添加元素
+     */
+    private void checkPositionIndex(int index) {
+        if (!isPositionIndex(index))
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+    }
+
 
     /**
      * 获取到指定索引位置的node
